@@ -1,0 +1,102 @@
+
+drop database bdprojetointegrador;
+
+create database bdprojetointegrador;
+
+use bdprojetointegrador;
+
+
+create table tbperguntas(
+codPerguntas int not null auto_increment,
+perguntas char(100) not null,
+primary key(codPerguntas));
+
+create table tbusuarios(
+codUsuario int not null auto_increment,
+nomeUso varchar (100) not null,
+sexoUso char(1) not null default 'F' check(sexoUso in('F', 'M')),
+endereco varchar(100) not null,
+telefoneResidendialUso char(15) not null,
+telefoneUso char(15) not null,
+dataDeNascimento date,
+cpf char(15) not null,
+email varchar (100) not null,
+codPerguntas int not null,
+primary key(codUsuario),
+foreign key(codPerguntas)references tbperguntas(codPerguntas));
+
+create table tbdonatario(
+codDonatario int not null auto_increment,
+nomeAssi varchar(45) not null,
+telefoneDonatario char(15) not null,
+telefoneResidencialDonatario char (14),
+endereco varchar(100) not null,
+cpf char(15) not null,
+dataDeNascimento date,
+email varchar (100) not null,
+sexoDonatario char(1) not null default 'F' check(sexoDonatario in('F', 'M')),
+primary key(codDonatario));
+
+create table tbparceiro(
+codParceiro int not null auto_increment,
+nomeParceiro varchar(50) not null,
+enderecoParceiro varchar(100) not null,
+primary key(codParceiro));
+
+create table tbprodutos(
+codProdutos int not null auto_increment,
+produto varchar(50) not null,
+dataDaDoacao date,
+dataDaPublicacao date not null,
+descricao varchar(150) not null,
+codParceiro int not null,
+codPerguntas int not null,
+primary key(codProdutos),
+foreign key(codParceiro)references tbparceiro(codParceiro),
+foreign key(codPerguntas)references tbperguntas(codPerguntas));
+
+create table tbdoacao(
+codDoacao int not null auto_increment,
+codUsuario int not null, 
+codProdutos int not null,
+codDonatario int not null,
+primary key(codDoacao),
+foreign key(codUsuario) references tbusuarios(codUsuario),
+foreign key(codProdutos) references tbprodutos(codProdutos),
+foreign key(codDonatario) references tbdonatario(codDonatario));
+
+insert into tbperguntas(perguntas)
+	values("Realizou algum programa de reabilitacao?");
+insert into tbperguntas(perguntas)
+	values("Possui acompanhamento clinico regular?");
+insert into tbperguntas(perguntas)
+	values("Tem déficiencia auditivo ?");
+insert into tbperguntas(perguntas)
+	values("Tem déficiencia intelectual ?");
+insert into tbperguntas(perguntas)
+	values("Possui alguma doença associada ?");
+insert into tbperguntas(perguntas)
+	values("Usa algum medicamento?");
+insert into tbperguntas(perguntas)
+	values("Possui acompanhamento clínico regular?");
+insert tbperguntas(perguntas)
+	values("Esta em tratamento?");
+insert into tbperguntas(perguntas)
+	values("necessita de ajuda de outra pessoa para realizar deslocamento, transferência, alimentação ou higiene pessoal?");
+insert into tbperguntas(perguntas)
+	values("Consegue se locomover de forma independente para frequentar as atividades?");
+insert into tbperguntas(perguntas)
+	values("O paciente realizou algum tratamento prévio ou esta em tratamento.(pós operatorio) ?");
+insert into tbperguntas(perguntas)
+	values("Recebe algum auxilio? Se sim qual?");
+insert into tbperguntas(perguntas)
+	values("Qual é a sua renda familiar total?(A soma de todas as pessoas que moram na sua casa) ?");
+insert into tbperguntas(perguntas)
+	values("Situação de moradia?");
+insert into tbperguntas(perguntas)
+	values("Comprovante de residencia");
+insert into tbperguntas(perguntas)
+	values("Prescrição medica de adptaçoes");
+insert into tbperguntas(perguntas)
+	values("Com suas palavras descreva o motivo que vc deve receber essa doação ?");
+
